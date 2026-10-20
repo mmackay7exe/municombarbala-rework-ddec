@@ -32,7 +32,8 @@ Las páginas con muchas secciones (trámites, departamentos, contacto) reúnen t
 ├── *.html            13 páginas
 ├── css/styles.css    única hoja de estilos para todo el sitio
 ├── js/main.js        interacciones (menú, carrusel, filtros, búsqueda, fichas, formulario)
-├── img/              imágenes en WebP (y versiones de 600 px para pantallas pequeñas)
+├── fonts/            tipografía Inter (woff2)
+├── img/              imágenes en WebP (y versiones de 600, 900 y 1000 px para pantallas pequeñas)
 ├── sitemap.xml
 └── robots.txt
 ```
@@ -49,7 +50,7 @@ Las páginas con muchas secciones (trámites, departamentos, contacto) reúnen t
 | Metadatos y SEO | `title` y `description` por página, Open Graph, `theme-color`, `robots`, `sitemap.xml` y `robots.txt`. |
 | Microdatos (schema.org) | `BreadcrumbList` en las migas de pan, `NewsArticle` en las noticias y `GovernmentOrganization` en el footer. |
 | Formularios y privacidad | Búsqueda con `method="get"`; formulario de contacto con validación nativa, consentimiento explícito y desmarcado, finalidades separadas y enlace a la política de privacidad (Ley 21.719). |
-| Tipografía web embebida | Inter, desde Google Fonts. |
+| Tipografía web embebida | Inter (fuente variable, licencia SIL OFL) alojada en `fonts/` y cargada con `@font-face` y `font-display: swap`. |
 | Una hoja de estilos | `css/styles.css` para todas las páginas. |
 
 ## Fuentes de contenido
