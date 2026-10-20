@@ -592,8 +592,6 @@ img[src$="cupula_obscruzdel_sur.webp"]{object-position:center 75%}
 .nc[hidden]{display:none}
 .nc .tg{margin:0}
 .nc .ph{aspect-ratio:2/1}
-.nph{display:grid;place-items:center;background:var(--azul);color:#fff}
-.nph svg{width:48px;height:48px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
 .sh>.meta{flex:none}
 .rc:empty{display:none}
 #rc4{margin:-8px 0 12px}
