@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mmackay7exe.github.io/Municipalidad_Combarbala_RW/sitemap.xml
+Sitemap: https://mmackay7exe.github.io/municombarbala-rework-ddec/sitemap.xml

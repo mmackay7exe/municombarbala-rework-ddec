@@ -1,57 +1,37 @@
-# Rediseño del sitio web de la Ilustre Municipalidad de Combarbalá
+# Municipalidad de Combarbalá — Rediseño web
 
-Proyecto final del curso **Diseño desde el código** (PUCV, 2026). Rediseño del sitio [municombarbala.cl](https://www.municombarbala.cl/) con foco en la navegación, la claridad de los contenidos, la accesibilidad y el rendimiento.
+Proyecto final del curso **Diseño desde el código** (PUCV, 2026). Es un ejercicio universitario de rediseño del sitio de la Ilustre Municipalidad de Combarbalá ([municombarbala.cl](https://www.municombarbala.cl/)); no es el sitio oficial.
 
-## Objetivo
+**Ver el sitio:** https://mmackay7exe.github.io/municombarbala-rework-ddec/
 
-Que vecinas, vecinos y visitantes encuentren rápido lo que buscan: hacer un trámite, contactar a un departamento, informarse de la comuna o revisar la información pública del municipio, desde el celular o el computador.
+## De qué se trata
 
-## Arquitectura de contenidos
+Buscamos que cualquier persona encuentre rápido lo que necesita: hacer un trámite, saber a qué departamento acudir, llamar a la municipalidad, informarse de lo que pasa en la comuna o revisar la información pública. Todo debía funcionar bien tanto en el celular como en el computador.
 
-```
-Inicio (index.html)
-├── Comuna (comuna.html)
-│   └── Cultura y turismo (cultura-turismo.html)
-├── Autoridades (autoridades.html)
-├── Departamentos (departamentos.html) ─ directorio + ficha de cada departamento (#desam, #daem, #dideco, #daf, #dom, #secpla, #deportes, #transito, #jpl)
-├── Trámites y servicios (tramites.html) ─ 22 trámites en 7 categorías (#permiso, #licencias, #patentes, #pagos…)
-├── Noticias (noticias.html)
-│   └── Noticia (noticia.html)
-├── Transparencia y participación (transparencia.html)
-├── Contacto y agenda telefónica (contacto.html) ─ #horario, #telefonos, #formulario
-├── Buscar en el sitio (buscar.html)
-├── Política de privacidad (privacidad.html)
-└── Página no encontrada (404.html)
-```
+## Cómo lo organizamos
 
-Las páginas con muchas secciones (trámites, departamentos, contacto) reúnen todo en un solo HTML, ordenado por categorías y con un buscador que filtra el contenido de esa página.
+Partimos revisando el sitio oficial: qué contenidos tenía, cómo estaban ordenados y qué cosas costaba encontrar. Con eso definimos qué páginas necesitaba el sitio y cómo se conectaban entre sí.
 
-## Estructura de archivos
+Después hicimos unos primeros wireframes generales, que funcionaban como plantilla: una página de inicio y una página interior, para acordar la estructura base (encabezado, menú, contenido y pie de página).
 
-```
-├── *.html            13 páginas
-├── css/styles.css    única hoja de estilos para todo el sitio
-├── js/main.js        interacciones (menú, carrusel, filtros, búsqueda, fichas, formulario)
-├── fonts/            tipografía Inter (woff2)
-├── img/              imágenes en WebP (y versiones de 600, 900 y 1000 px para pantallas pequeñas)
-├── sitemap.xml
-└── robots.txt
-```
+Con esa base hicimos una segunda ronda de wireframes, más detallados, para los distintos tipos de página: inicio, autoridades, un departamento (Administración y Finanzas), el listado de noticias y una noticia. Cada uno en versión escritorio y móvil. Así quedaron plantillas más definidas para construir el resto de las páginas.
 
-## Cómo cumple la pauta de evaluación
+En paralelo armamos las directrices de diseño: el azul institucional para el encabezado y el pie, el verde para los botones y acciones, la tipografía Inter, una escala de espacios y bordes redondeados, y reglas de contraste para que todo se lea bien. El detalle está en la Wiki del proyecto.
 
-| Punto | Implementación |
-|---|---|
-| Validación HTML y CSS | Las páginas pasan el [validador W3C](https://validator.w3.org/nu/) sin errores; el CSS pasa el [validador de CSS](https://jigsaw.w3.org/css-validator/) sin errores. |
-| Semántica | `header`, `nav`, `main`, `section`, `article`, `aside`, `footer`, `figure`, `details`, `dialog`, tablas con `caption` y `th scope`. |
-| Accesibilidad | Idioma `es`, enlace «Saltar al contenido», foco visible, `alt` descriptivos, `aria-*` en menús y filtros, contraste AA, controles de 44 px, formularios con `label` y errores junto al campo, respeto de `prefers-reduced-motion`. |
-| Responsividad | Diseño mobile-first con media queries; tablas que se apilan en móvil; imágenes con `srcset`/`sizes` y `loading="lazy"`. |
-| Core Web Vitals | Imágenes WebP optimizadas, dimensiones `width`/`height` para evitar saltos (CLS), JavaScript diferido, video con `preload="none"`. |
-| Metadatos y SEO | `title` y `description` por página, Open Graph, `theme-color`, `robots`, `sitemap.xml` y `robots.txt`. |
-| Microdatos (schema.org) | `BreadcrumbList` en las migas de pan, `NewsArticle` en las noticias y `GovernmentOrganization` en el footer. |
-| Formularios y privacidad | Búsqueda con `method="get"`; formulario de contacto con validación nativa, consentimiento explícito y desmarcado, finalidades separadas y enlace a la política de privacidad (Ley 21.719). |
-| Tipografía web embebida | Inter (fuente variable, licencia SIL OFL) alojada en `fonts/` y cargada con `@font-face` y `font-display: swap`. |
-| Una hoja de estilos | `css/styles.css` para todas las páginas. |
+Finalmente construimos el sitio en HTML, CSS y JavaScript, página por página, y lo fuimos probando en distintos tamaños de pantalla y con las herramientas de validación del W3C y Lighthouse.
+
+## Páginas del sitio
+
+Inicio, Comuna, Cultura y turismo, Autoridades, Departamentos, Trámites y servicios, Noticias, Noticia, Transparencia y participación, Contacto (con agenda telefónica), Buscar, Política de privacidad y una página para direcciones que no existen.
+
+Las páginas con mucha información, como trámites, departamentos y contacto, reúnen todo en un solo lugar, ordenado por categorías y con un buscador para filtrar.
+
+## Cómo están ordenados los archivos
+
+- Los archivos `.html` son las páginas.
+- `css/styles.css` es la única hoja de estilos, compartida por todas las páginas.
+- `js/main.js` tiene las interacciones: menú, carrusel, filtros, búsqueda, fichas emergentes y formulario.
+- `img/` guarda las imágenes y `fonts/` la tipografía.
 
 ## Fuentes de contenido
 
