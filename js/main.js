@@ -235,4 +235,17 @@
     document.getElementById('nr4-x').addEventListener('click', function () { q4.value = ''; sc.value = ''; sy.value = ''; listar(); q4.focus(); });
     listar();
   }
+  // Video incrustado: botón grande de reproducir sobre la portada (los controles nativos siguen disponibles)
+  document.querySelectorAll('.vid video').forEach(function (v) {
+    var w = document.createElement('div'), b = document.createElement('button');
+    w.className = 'vw'; v.parentNode.insertBefore(w, v); w.appendChild(v);
+    b.type = 'button'; b.className = 'vp';
+    var tv = document.getElementById('t-vid');
+    b.setAttribute('aria-label', 'Reproducir video' + (tv ? ': ' + tv.textContent.replace(/^Video:\s*/i, '') : ''));
+    b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+    b.addEventListener('click', function () { v.play(); v.focus(); });
+    v.addEventListener('play', function () { b.hidden = true; });
+    v.addEventListener('pause', function () { b.hidden = false; });
+    w.appendChild(b);
+  });
 })();
