@@ -235,6 +235,40 @@
     document.getElementById('nr4-x').addEventListener('click', function () { q4.value = ''; sc.value = ''; sy.value = ''; listar(); q4.focus(); });
     listar();
   }
+  // Contacto: filtro de la agenda telefónica por texto y categoría
+  var agd = document.getElementById('t-agd');
+  if (agd) {
+    var q5 = document.getElementById('q5'), rc5 = document.getElementById('rc5'), cat5 = '';
+    var fb5 = document.querySelectorAll('.agd .mf button'), tr5 = agd.querySelectorAll('tr[data-c]'), e5 = agd.querySelector('.dt-e');
+    var n5 = function (s) { return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); };
+    var k5 = Array.prototype.map.call(tr5, function (r) { return n5(r.textContent); });
+    function agenda() {
+      var ws = n5(q5.value).trim().split(/\s+/).filter(Boolean), n = 0;
+      tr5.forEach(function (r, i) {
+        var ok = (!cat5 || r.dataset.c === cat5) && ws.every(function (w) { return k5[i].indexOf(w) > -1; });
+        r.hidden = !ok; if (ok) n++;
+      });
+      rc5.textContent = n === tr5.length ? '' : n + ' de ' + tr5.length + ' contactos';
+      e5.hidden = n > 0;
+    }
+    q5.addEventListener('input', agenda);
+    fb5.forEach(function (b) {
+      b.addEventListener('click', function () {
+        cat5 = b.dataset.f; fb5.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); }); agenda();
+      });
+    });
+  }
+  // Contacto: el formulario es una maqueta; valida y avisa que el mensaje no se envía
+  var fmc = document.getElementById('fm-con');
+  if (fmc) {
+    fmc.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var st = document.getElementById('fm-st');
+      if (!fmc.checkValidity()) { st.textContent = ''; fmc.reportValidity(); return; }
+      st.textContent = 'Gracias, ' + fmc.nombre.value.trim().split(' ')[0] + '. Este formulario es una maqueta y el mensaje no se envió: para una respuesta llama a la mesa central, 53 2655500.';
+      fmc.reset();
+    });
+  }
   // Video incrustado: botón grande de reproducir sobre la portada (los controles nativos siguen disponibles)
   document.querySelectorAll('.vid video').forEach(function (v) {
     var w = document.createElement('div'), b = document.createElement('button');
