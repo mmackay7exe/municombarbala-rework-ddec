@@ -668,6 +668,24 @@ main>.g2{margin-top:40px}
 .fm .ck input{flex:none;width:22px;height:22px;min-height:0;margin:1px 0 0;padding:0;accent-color:var(--verde);cursor:pointer}
 .fm .ck label{display:block;font-weight:500;cursor:pointer}
 .panel .fm .pv{margin:0;font-size:.8125rem;color:var(--txt2);font-weight:500}
+/* Página Buscar: formulario, resultados con coincidencias resaltadas y sugerencias */
+.sbf{display:grid;gap:8px;margin-top:16px}
+.sbf label{font-weight:700}
+.sbr{display:flex;gap:8px}
+.sbr .fi{flex:1;min-width:0}
+.panel.sbf .hint{margin:0;font-size:.8125rem;color:var(--txt2)}
+.sres{margin-top:24px}
+.sl{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.sl li{padding:16px 20px}
+.sl h3{margin:8px 0 4px;font-size:1.0625rem}
+.sl h3 a{color:var(--azul)}
+.panel.sl li p,.sl li>p{margin:0;font-size:.875rem}
+.sl .meta{display:block;margin-top:6px;font-size:.75rem}
+mark{background:#FDE68A;color:inherit;border-radius:3px;padding:0 1px}
+.sug a{color:var(--txt);text-decoration:none}
+.sug li:hover{border-color:var(--verde)}
+.sug li:hover a{color:var(--verde)}
+#rc-sitio{margin:0 0 12px;font-size:.9375rem;font-weight:700;color:var(--txt)}
 /* Microdatos sin contenido visible (publisher/author): no deben ocupar espacio en tarjetas flex */
 [itemprop=publisher],[itemprop=author]{display:none}
 /* Etiquetas de una noticia */

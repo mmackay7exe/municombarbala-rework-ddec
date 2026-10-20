@@ -290,6 +290,73 @@
       fmc.reset(); intentado = false;
     });
   }
+  // Búsqueda en todo el sitio (buscar.html?q=): lee las páginas y busca en trámites, departamentos, noticias, teléfonos, documentos y secciones
+  var res = document.getElementById('res');
+  if (res) {
+    var PAGS = ['index.html', 'tramites.html', 'departamentos.html', 'noticias.html', 'noticia.html', 'contacto.html', 'transparencia.html', 'cultura-turismo.html', 'comuna.html', 'autoridades.html', 'privacidad.html'];
+    var qs = (new URLSearchParams(location.search).get('q') || '').trim(), qin = document.getElementById('q-sitio'), rcs = document.getElementById('rc-sitio');
+    var nb = function (s) { return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); };
+    var txt = function (el) { return el ? el.textContent.replace(/\s+/g, ' ').trim() : ''; };
+    qin.value = qs;
+    var extraer = function (u, d) {
+      var it = [], add = function (tipo, t, de, url, k) { if (t) it.push({ tipo: tipo, t: t, d: de, u: url, k: nb(t + ' ' + de + ' ' + k) }); };
+      var main = d.querySelector('main');
+      if (u !== 'noticia.html') add('Página', d.title.replace(/ \| Municipalidad de Combarbalá$/, ''), (d.querySelector('meta[name=description]') || {}).content || '', u, '');
+      d.querySelectorAll('details.tr').forEach(function (x) { add('Trámite', txt(x.querySelector('summary b')), txt(x.querySelector('summary small')), u + '#' + x.id, txt(x)); });
+      d.querySelectorAll('section.dp').forEach(function (x) { add('Departamento', txt(x.querySelector('h2')), txt(x.querySelector('.ban p')), u + '#' + x.id, txt(x)); });
+      if (u === 'noticias.html') d.querySelectorAll('[itemtype$="NewsArticle"]').forEach(function (x) {
+        var a = x.querySelector('[itemprop=url], h3 a');
+        add('Noticia', txt(x.querySelector('[itemprop=headline]')), txt(x.querySelector('time')) + ' · ' + txt(x.querySelector('[itemprop=description]')), a ? a.getAttribute('href') : 'noticias.html', txt(x.querySelector('[itemprop=articleSection]')));
+      });
+      if (u === 'noticia.html') add('Noticia', txt(d.querySelector('h1')), txt(d.querySelector('.ent')), u, txt(d.querySelector('[itemprop=articleBody]')));
+      d.querySelectorAll('tr[data-c]').forEach(function (x) { var c = x.cells; add('Teléfono', txt(c[0].firstChild), txt(c[2]) + ' · ' + txt(c[0].querySelector('small')), u + '#telefonos', txt(x)); });
+      d.querySelectorAll('.dt tbody tr:not([data-c]):not(.dt-e)').forEach(function (x) { var a = x.querySelector('a'); if (a) add('Documento', txt(x.cells[0]), txt(x.cells[1]) + ' · ' + txt(x.cells[2]), a.getAttribute('href'), ''); });
+      if (main && !/^(tramites|departamentos|noticias|noticia|buscar)\.html$/.test(u)) main.querySelectorAll('section[id], h2[id]').forEach(function (x) {
+        if (x.tagName === 'H2' && x.closest('section[id]')) return;
+        var h = x.tagName === 'H2' ? x : x.querySelector('h2, h3'), p = x.tagName === 'H2' ? x.nextElementSibling : x.querySelector('p');
+        add('Sección', txt(h), txt(p).slice(0, 160), u + '#' + x.id, txt(x.tagName === 'H2' ? x.parentNode : x));
+      });
+      return it;
+    };
+    var marcar = function (el, s, ws) {
+      // Resalta las palabras buscadas creando nodos de texto y <mark>, sin innerHTML
+      var n = nb(s), i = 0, re = new RegExp(ws.map(function (w) { return w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|'), 'g'), m;
+      while (ws.length && (m = re.exec(n))) {
+        if (!m[0]) break;
+        el.appendChild(document.createTextNode(s.slice(i, m.index)));
+        var mk = document.createElement('mark'); mk.textContent = s.slice(m.index, m.index + m[0].length); el.appendChild(mk);
+        i = m.index + m[0].length;
+      }
+      el.appendChild(document.createTextNode(s.slice(i)));
+    };
+    if (qs.length >= 2) {
+      document.title = 'Resultados para «' + qs + '» | Municipalidad de Combarbalá';
+      rcs.textContent = 'Buscando…';
+      Promise.all(PAGS.map(function (u) {
+        return fetch(u).then(function (r) { return r.text(); }).then(function (h) { return extraer(u, new DOMParser().parseFromString(h, 'text/html')); });
+      })).then(function (todos) {
+        var ws = nb(qs).split(/\s+/).filter(Boolean), vistos = {}, out = [];
+        [].concat.apply([], todos).forEach(function (r) {
+          if (!ws.every(function (w) { return r.k.indexOf(w) > -1; })) return;
+          var clave = r.tipo + '|' + r.t + '|' + r.u; if (vistos[clave]) return; vistos[clave] = 1;
+          var nt = nb(r.t), nd = nb(r.d);
+          r.p = ws.reduce(function (a, w) { return a + (nt.indexOf(w) > -1 ? 3 : 0) + (nd.indexOf(w) > -1 ? 1 : 0); }, 0) + (r.tipo === 'Página' ? 0 : 1);
+          out.push(r);
+        });
+        out.sort(function (a, b) { return b.p - a.p; });
+        out.slice(0, 40).forEach(function (r) {
+          var li = document.createElement('li'), tg = document.createElement('span'), h = document.createElement('h3'), a = document.createElement('a'), p = document.createElement('p'), u = document.createElement('p');
+          tg.className = 'tag'; tg.textContent = r.tipo;
+          a.href = r.u; marcar(a, r.t, ws); h.appendChild(a);
+          marcar(p, r.d, ws); u.className = 'meta'; u.textContent = r.u.split('#')[0];
+          if (/^https?:/.test(r.u)) { a.rel = 'noopener'; u.textContent = 'Sitio externo o documento'; }
+          li.className = 'panel'; li.append(tg, h); if (r.d) li.appendChild(p); li.appendChild(u); res.appendChild(li);
+        });
+        rcs.textContent = out.length ? out.length + (out.length === 1 ? ' resultado' : ' resultados') + ' para «' + qs + '»' + (out.length > 40 ? '; se muestran los 40 más relevantes' : '') : '';
+        document.getElementById('nr-sitio').hidden = out.length > 0;
+      }).catch(function () { rcs.textContent = 'No se pudo hacer la búsqueda. Abre el sitio desde un servidor web (por ejemplo, GitHub Pages o Live Server).'; });
+    } else if (qs) { rcs.textContent = 'Escribe al menos 2 letras para buscar.'; }
+  }
   // Video incrustado: botón grande de reproducir sobre la portada (los controles nativos siguen disponibles)
   document.querySelectorAll('.vid video').forEach(function (v) {
     var w = document.createElement('div'), b = document.createElement('button');
