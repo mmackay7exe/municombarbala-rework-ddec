@@ -652,4 +652,7 @@ main>.g2{margin-top:40px}
 .fm2{grid-template-columns:1fr 1fr;gap:16px 24px}
 .fm2 .w{grid-column:1/-1}
 }
+/* Página Cultura y turismo: imagen de cabecera bajo el banner */
+.ctb{width:100%;margin-top:16px;border-radius:16px;aspect-ratio:1200/350;object-fit:cover}
+.card>.tag{align-self:flex-start}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
