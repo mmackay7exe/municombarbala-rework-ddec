@@ -99,7 +99,7 @@
   });
   // Trámites: filtro por texto y modalidad, contadores por categoría y apertura por enlace (#permiso)
   var cat = document.querySelector('.cat');
-  if (cat) {
+  if (cat && document.getElementById('q2')) {
     var q = document.getElementById('q2'), rc = document.getElementById('rc'), nr = document.getElementById('nr');
     var fb = cat.querySelectorAll('.mf button'), secs = cat.querySelectorAll('.tc'), mod = '';
     var norm = function (s) { return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); };
@@ -148,5 +148,48 @@
       }, { rootMargin: '-35% 0px -60% 0px' });
       secs.forEach(function (s) { io.observe(s); });
     }
+  }
+  // Departamentos: el ancla (#daf o #daf-docs) muestra solo esa ficha; sin ancla se ve el directorio con buscador
+  var dps = document.querySelector('.dps');
+  if (dps) {
+    var html = document.documentElement, dir = document.querySelector('.dir'), deps = dps.querySelectorAll('.dp'), t0 = document.title;
+    var nrm = function (s) { return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); };
+    function ruta() {
+      var t = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1))), d = t && t.closest('.dp');
+      html.classList.toggle('vd', !!d);
+      deps.forEach(function (x) { x.classList.toggle('sel', x === d); });
+      dps.querySelectorAll('.cn li a').forEach(function (a) { a.setAttribute('aria-current', String(!!d && a.getAttribute('href') === '#' + d.id)); });
+      document.title = d ? d.dataset.t + ' | Municipalidad de Combarbalá' : t0;
+      // En móvil el carril de chips se desplaza hasta el departamento activo
+      var ul = dps.querySelector('.cn ul'), cur = ul.querySelector('[aria-current=true]');
+      if (cur) ul.scrollLeft += cur.getBoundingClientRect().left - ul.getBoundingClientRect().left - 16;
+      if (d && t !== d) t.scrollIntoView(); else scrollTo(0, 0);
+    }
+    addEventListener('hashchange', ruta);
+    ruta();
+    var q3 = document.getElementById('q3'), cards = dir.querySelectorAll('.dc');
+    var ks = Array.prototype.map.call(cards, function (c) { return nrm(c.textContent + ' ' + c.dataset.k); });
+    q3.addEventListener('input', function () {
+      var ws = nrm(q3.value).trim().split(/\s+/).filter(Boolean), n = 0;
+      cards.forEach(function (c, i) {
+        var ok = ws.every(function (w) { return ks[i].indexOf(w) > -1; });
+        c.hidden = !ok; if (ok) n++;
+      });
+      document.getElementById('rc3').textContent = n === cards.length ? n + ' departamentos' : n + ' de ' + cards.length + ' departamentos';
+      document.getElementById('nr3').hidden = n > 0;
+    });
+    // Centro documental: filtros por año y categoría
+    dps.querySelectorAll('.dfil').forEach(function (f) {
+      var tb = document.getElementById(f.dataset.t), ss = f.querySelectorAll('select'), e = tb.querySelector('.dt-e');
+      function filtrarDocs() {
+        var n = 0;
+        tb.querySelectorAll('tr[data-y]').forEach(function (r) {
+          var ok = (!ss[0].value || r.dataset.y === ss[0].value) && (!ss[1].value || r.dataset.c === ss[1].value);
+          r.hidden = !ok; if (ok) n++;
+        });
+        e.hidden = n > 0;
+      }
+      ss.forEach(function (s) { s.addEventListener('change', filtrarDocs); });
+    });
   }
 })();
