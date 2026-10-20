@@ -98,14 +98,20 @@
 <p class="tx">Los departamentos sin línea directa se atienden a través de la mesa central.</p>
 </section>
 
-<section class="panel" id="formulario" aria-labelledby="t-fm"><h2 id="t-fm">Escríbenos</h2><p class="lead">Envía tu consulta, sugerencia o reclamo. Los campos con * son obligatorios.</p>
-<form class="fm fm2" id="fm-con" novalidate>
-<label>Nombre completo *<input name="nombre" autocomplete="name" required></label>
-<label>Correo electrónico *<input name="correo" type="email" autocomplete="email" required></label>
-<label>Teléfono<input name="telefono" type="tel" autocomplete="tel"></label>
-<label>Departamento<select name="depto"><option value="">No lo sé / general</option><option>Alcaldía</option><option>Salud (DESAM)</option><option>Educación (DAEM)</option><option>Desarrollo Comunitario (DIDECO)</option><option>Administración y Finanzas (DAF)</option><option>Obras Municipales (DOM)</option><option>Planificación (SECPLA)</option><option>Oficina de Deportes</option><option>Tránsito</option><option>Juzgado de Policía Local</option></select></label>
-<label class="w">Mensaje *<textarea name="mensaje" rows="5" required></textarea></label>
-<div class="w fst"><button class="btn" type="submit">Enviar mensaje</button><p id="fm-st" role="status"></p></div>
+<section class="panel" id="formulario" aria-labelledby="t-fm"><h2 id="t-fm">Escríbenos</h2><p class="lead">Envía tu consulta, sugerencia o reclamo. Los campos marcados con * son obligatorios.</p>
+<form class="fm fm2" id="fm-con" action="contacto.html" method="post" novalidate>
+<div class="fld"><label for="f-nom">Nombre completo <span class="req" aria-hidden="true">*</span></label><input id="f-nom" name="nombre" autocomplete="name" required minlength="3" maxlength="80" aria-describedby="e-nom"><p class="err" id="e-nom" hidden></p></div>
+<div class="fld"><label for="f-mail">Correo electrónico <span class="req" aria-hidden="true">*</span></label><input id="f-mail" name="correo" type="email" autocomplete="email" required maxlength="120" aria-describedby="e-mail"><p class="err" id="e-mail" hidden></p></div>
+<div class="fld"><label for="f-tel">Teléfono (opcional)</label><input id="f-tel" name="telefono" type="tel" autocomplete="tel" inputmode="tel" pattern="[+0-9 ]{8,16}" aria-describedby="h-tel e-tel"><p class="hint" id="h-tel">Por ejemplo: 9 1234 5678</p><p class="err" id="e-tel" hidden></p></div>
+<div class="fld"><label for="f-dep">Departamento</label><select id="f-dep" name="departamento"><option value="">No lo sé / general</option><option>Alcaldía</option><option>Salud (DESAM)</option><option>Educación (DAEM)</option><option>Desarrollo Comunitario (DIDECO)</option><option>Administración y Finanzas (DAF)</option><option>Obras Municipales (DOM)</option><option>Planificación (SECPLA)</option><option>Oficina de Deportes</option><option>Tránsito</option><option>Juzgado de Policía Local</option></select></div>
+<div class="fld w"><label for="f-msg">Mensaje <span class="req" aria-hidden="true">*</span></label><textarea id="f-msg" name="mensaje" rows="5" required minlength="10" maxlength="1000" aria-describedby="h-msg e-msg"></textarea><p class="hint" id="h-msg">Entre 10 y 1000 caracteres.</p><p class="err" id="e-msg" hidden></p></div>
+<fieldset class="w ckg"><legend>Uso de tus datos</legend>
+<div class="ck"><input id="f-ok" name="consentimiento" type="checkbox" value="si" required aria-describedby="e-ok"><label for="f-ok">Acepto que la municipalidad use mis datos solo para responder esta consulta. <span class="req" aria-hidden="true">*</span></label></div>
+<p class="err" id="e-ok" hidden></p>
+<div class="ck"><input id="f-nov" name="novedades" type="checkbox" value="si"><label for="f-nov">Quiero recibir novedades municipales por correo (opcional).</label></div>
+</fieldset>
+<div class="w fst"><button class="btn" type="submit">Enviar mensaje</button><p class="pv">Revisa cómo tratamos tus datos en la <a href="privacidad.html">política de privacidad</a>.</p></div>
+<p class="w" id="fm-st" role="status"></p>
 </form></section>
 </main>
 <footer class="ft"><div class="wrap" itemscope itemtype="https://schema.org/GovernmentOrganization"><link itemprop="url" href="index.html"><link itemprop="logo" href="img/logo-azul.webp">

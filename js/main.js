@@ -258,15 +258,36 @@
       });
     });
   }
-  // Contacto: el formulario es una maqueta; valida y avisa que el mensaje no se envía
+  // Contacto: validación con mensajes junto a cada campo; el formulario es una maqueta y no envía datos
   var fmc = document.getElementById('fm-con');
   if (fmc) {
+    var intentado = false;
+    var textos = {
+      nombre: { valueMissing: 'Escribe tu nombre.', tooShort: 'El nombre debe tener al menos 3 letras.' },
+      correo: { valueMissing: 'Escribe tu correo para poder responderte.', typeMismatch: 'Revisa el correo; por ejemplo: nombre@correo.cl.' },
+      telefono: { patternMismatch: 'Usa solo números (y + si quieres), entre 8 y 16 caracteres.' },
+      mensaje: { valueMissing: 'Cuéntanos tu consulta.', tooShort: 'El mensaje debe tener al menos 10 caracteres.' },
+      consentimiento: { valueMissing: 'Para responderte necesitamos que aceptes el uso de tus datos.' }
+    };
+    var revisar = function (c) {
+      var err = c.getAttribute('aria-describedby') && document.getElementById(c.getAttribute('aria-describedby').split(' ').pop());
+      if (!err || !err.classList.contains('err')) return true;
+      var v = c.validity, t = textos[c.name] || {}, msg = '';
+      ['valueMissing', 'typeMismatch', 'tooShort', 'patternMismatch'].some(function (k) { if (v[k]) { msg = t[k] || 'Revisa este campo.'; return true; } });
+      err.textContent = msg; err.hidden = !msg;
+      if (msg) c.setAttribute('aria-invalid', 'true'); else c.removeAttribute('aria-invalid');
+      return !msg;
+    };
+    var campos = fmc.querySelectorAll('input, textarea');
+    // Tras el primer intento de envío, los errores se actualizan al salir de cada campo (no antes, para no apurar al usuario)
+    campos.forEach(function (c) { c.addEventListener(c.type === 'checkbox' ? 'change' : 'blur', function () { if (intentado) revisar(c); }); });
     fmc.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var st = document.getElementById('fm-st');
-      if (!fmc.checkValidity()) { st.textContent = ''; fmc.reportValidity(); return; }
+      e.preventDefault(); intentado = true;
+      var st = document.getElementById('fm-st'), malo = null;
+      campos.forEach(function (c) { if (!revisar(c) && !malo) malo = c; });
+      if (malo) { st.textContent = 'Revisa los campos marcados.'; malo.focus(); return; }
       st.textContent = 'Gracias, ' + fmc.nombre.value.trim().split(' ')[0] + '. Este formulario es una maqueta y el mensaje no se envió: para una respuesta llama a la mesa central, 53 2655500.';
-      fmc.reset();
+      fmc.reset(); intentado = false;
     });
   }
   // Video incrustado: botón grande de reproducir sobre la portada (los controles nativos siguen disponibles)
