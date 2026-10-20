@@ -686,6 +686,22 @@ mark{background:#FDE68A;color:inherit;border-radius:3px;padding:0 1px}
 .sug li:hover{border-color:var(--verde)}
 .sug li:hover a{color:var(--verde)}
 #rc-sitio{margin:0 0 12px;font-size:.9375rem;font-weight:700;color:var(--txt)}
+/* Fichas emergentes (dialog) de horario y transparencia */
+.fch{width:min(440px,calc(100% - 32px));max-height:calc(100dvh - 32px);padding:0;border:0;border-radius:16px;background:#fff;color:var(--txt);box-shadow:0 24px 48px #00000059}
+.fch::backdrop{background:#0b1730a6}
+.fch-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px 14px 20px;background:var(--azul);color:#fff}
+.fch-h h2{margin:0;font-size:1.125rem}
+.fch-x{width:44px;height:44px;margin:-6px -6px -6px 0;border:0;border-radius:10px;background:none;color:#fff;display:grid;place-items:center;cursor:pointer}
+.fch-x:hover{background:#235199}
+.fch-x:focus-visible{outline-color:#fff}
+.fch-x svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+.fch-b{padding:20px}
+.fch-b>p{margin:0 0 12px;color:var(--txt2);font-size:.9375rem}
+.fch-b .ci{margin:0 0 20px}
+.fch-b .lk{margin:0 0 16px}
+.fch-b .btn{min-height:44px;font-size:.875rem}
+.fch-b .fch-m{margin:16px 0 0;font-size:.875rem}
+@media(prefers-reduced-motion:no-preference){.fch[open]{animation:fch-in .2s ease}@keyframes fch-in{from{opacity:0;transform:translateY(12px)}}}
 /* Microdatos sin contenido visible (publisher/author): no deben ocupar espacio en tarjetas flex */
 [itemprop=publisher],[itemprop=author]{display:none}
 /* Etiquetas de una noticia */
