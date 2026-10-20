@@ -570,4 +570,35 @@ img[src$="cupula_obscruzdel_sur.webp"]{object-position:center 75%}
 .cn .cn-b{display:flex;margin:0 4px 8px;padding:4px 8px 12px;border-bottom:1px solid var(--borde);min-height:0}
 .cn .cn-b:hover{background:none;text-decoration:underline}
 }
+/* Página Noticias: destacada, barra de filtros, grilla paginada */
+.nd{display:grid;gap:16px;padding:16px}
+.nd img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:12px}
+.nd .tg{margin:0 0 8px}
+.nd h3{margin:0 0 12px;font-size:1.25rem;line-height:1.4}
+.nd h3 a{color:var(--txt);text-decoration:none}
+.nd h3 a:hover{text-decoration:underline;text-underline-offset:3px}
+.panel.nd p{margin:0 0 16px;font-size:.9375rem}
+.nfl{display:grid;gap:12px;margin-top:24px;padding:16px}
+.nfl-t{font-size:.9375rem}
+.nfl select{width:100%;height:44px;border:1px solid var(--campo);border-radius:10px;padding:0 12px;font:500 .9375rem Inter,sans-serif;color:var(--txt);background:#fff}
+.nfl .fi input{height:44px}
+.nc[hidden]{display:none}
+.nc .tg{margin:0}
+.nc .ph{aspect-ratio:2/1}
+.nph{display:grid;place-items:center;background:var(--azul);color:#fff}
+.nph svg{width:48px;height:48px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.sh>.meta{flex:none}
+.rc:empty{display:none}
+#rc4{margin:-8px 0 12px}
+.pg{justify-content:center}
+.pg button{min-width:44px;min-height:44px;padding:0 12px;display:grid;place-items:center;border:1px solid var(--campo);border-radius:8px;background:#fff;color:var(--azul);font:700 .875rem Inter,sans-serif;cursor:pointer}
+.pg button:hover{border-color:var(--azul)}
+.pg button[aria-current]{background:var(--azul);color:#fff;border-color:var(--azul)}
+.pg[hidden]{display:none}
+main>.g2{margin-top:40px}
+@media(min-width:768px){
+.nd{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:center;gap:28px;padding:20px}
+.nd h3{font-size:1.375rem}
+.nfl{grid-template-columns:auto 12rem 9rem minmax(0,1fr) auto;align-items:center}
+}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}

@@ -192,4 +192,47 @@
       ss.forEach(function (s) { s.addEventListener('change', filtrarDocs); });
     });
   }
+  // Noticias: filtro por categoría, año y palabra clave (también desde la búsqueda del header, ?q=) y paginación de 6 en 6
+  var nfl = document.querySelector('.nfl');
+  if (nfl) {
+    var nc = Array.prototype.slice.call(document.querySelectorAll('.nc')), POR = 6, pag = 1, vis = nc;
+    var sc = document.getElementById('n-cat'), sy = document.getElementById('n-y'), q4 = document.getElementById('q4');
+    var pg = document.getElementById('pg4'), rc4 = document.getElementById('rc4'), nr4 = document.getElementById('nr4');
+    var nn = function (s) { return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); };
+    var nk = nc.map(function (c) { return nn(c.textContent); });
+    function pintar() {
+      var np = Math.ceil(vis.length / POR);
+      nc.forEach(function (c) { var i = vis.indexOf(c); c.hidden = i < 0 || Math.floor(i / POR) + 1 !== pag; });
+      rc4.textContent = vis.length === nc.length ? '' : vis.length + ' de ' + nc.length + ' noticias';
+      nr4.hidden = vis.length > 0;
+      pg.hidden = np < 2; pg.innerHTML = '';
+      function boton(txt, p, lbl) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.textContent = txt; b.setAttribute('aria-label', lbl);
+        if (p === pag && txt === String(p)) b.setAttribute('aria-current', 'page');
+        b.addEventListener('click', function () { pag = p; pintar(); document.getElementById('t-ult').scrollIntoView(); });
+        pg.appendChild(b);
+      }
+      if (pag > 1) boton('‹ Anterior', pag - 1, 'Página anterior');
+      for (var p = 1; p <= np; p++) boton(String(p), p, 'Página ' + p);
+      if (pag < np) boton('Siguiente ›', pag + 1, 'Página siguiente');
+    }
+    function listar() {
+      var ws = nn(q4.value).trim().split(/\s+/).filter(Boolean);
+      vis = nc.filter(function (c, i) {
+        return (!sc.value || c.dataset.c === sc.value) && (!sy.value || c.dataset.y === sy.value) && ws.every(function (w) { return nk[i].indexOf(w) > -1; });
+      });
+      pag = 1; pintar();
+    }
+    var u = new URLSearchParams(location.search);
+    q4.value = u.get('q') || '';
+    if (u.get('cat')) sc.value = u.get('cat');
+    if (u.get('y')) sy.value = u.get('y');
+    nfl.addEventListener('submit', function (e) { e.preventDefault(); listar(); });
+    q4.addEventListener('input', listar);
+    sc.addEventListener('change', listar);
+    sy.addEventListener('change', listar);
+    document.getElementById('nr4-x').addEventListener('click', function () { q4.value = ''; sc.value = ''; sy.value = ''; listar(); q4.focus(); });
+    listar();
+  }
 })();
