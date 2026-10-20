@@ -7,7 +7,7 @@ img{max-width:100%;height:auto;display:block}
 a{color:var(--azul)}
 :focus-visible{outline:3px solid var(--txt);outline-offset:2px;box-shadow:0 0 0 2px #fff}
 .hd :focus-visible,.ft :focus-visible{outline-color:#fff;box-shadow:0 0 0 2px var(--azul)}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .skip{position:absolute;left:-999px;top:8px;background:#fff;color:var(--txt);padding:12px 16px;border-radius:10px;z-index:20;font-weight:700}
 .skip:focus{left:8px}
 .wrap{max-width:75rem;margin:0 auto;padding:0 16px}
@@ -111,7 +111,6 @@ main.wrap{padding-block:24px 56px}
 /* Carrusel de banners del inicio */
 .bnr{position:relative}
 .bt{display:grid;grid-auto-flow:column;grid-auto-columns:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:16px;background:#fff;border:1px solid var(--borde)}
-.bt::-webkit-scrollbar{display:none}
 .bs{scroll-snap-align:start;scroll-snap-stop:always}
 .bs a{display:block}
 .bs a:focus-visible{outline-offset:-4px}
@@ -219,7 +218,6 @@ h1{font-size:1.875rem}
 @media(min-width:768px){.cb{width:32px;height:32px}.js .car-b.mo{display:none}}
 @media(max-width:767.98px){
 .grid.g5{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:calc((100% - 16px)/2);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:6px;margin:-6px;scroll-padding-inline:6px}
-.g5::-webkit-scrollbar{display:none}
 .g5>.card{scroll-snap-align:start}
 .g5>:last-child:nth-child(odd){grid-column:auto}
 /* Footer móvil: solo lo esencial (nombre, contacto, redes) y más compacto */
@@ -399,7 +397,7 @@ img[src$="cupula_obscruzdel_sur.webp"]{object-position:center 75%}
 .tt{display:grid;gap:16px;margin-top:16px}
 .tt .ban{margin:0;display:flex;flex-direction:column;justify-content:center}
 .bk{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.bk li{padding:4px 12px;border-radius:999px;background:#ffffff26;font-size:.8125rem}
+.bk li{padding:4px 12px;border-radius:999px;background:#0000002e;font-size:.8125rem}
 .bk b{font-size:.9375rem}
 .ms{display:flex;flex-direction:column;gap:4px}
 .ms>.btn{align-self:stretch;margin-bottom:8px}
@@ -415,7 +413,6 @@ img[src$="cupula_obscruzdel_sur.webp"]{object-position:center 75%}
 .cb2{display:grid;gap:16px;min-width:0}
 /* Categorías: carril de chips en móvil, menú lateral fijo en escritorio */
 .cn ul{list-style:none;margin:0 -16px;padding:2px 16px 6px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
-.cn ul::-webkit-scrollbar{display:none}
 .cn a{display:flex;align-items:center;gap:8px;min-height:40px;padding:0 6px 0 14px;border:1px solid var(--campo);border-radius:999px;background:#fff;color:var(--txt);font-weight:700;font-size:.8125rem;text-decoration:none;white-space:nowrap}
 .cn a b{min-width:24px;height:24px;padding:0 6px;display:grid;place-items:center;border-radius:999px;background:var(--suave);color:var(--verde);font-size:.75rem}
 .cn a:hover{border-color:var(--verde);color:var(--verde)}
@@ -550,7 +547,7 @@ img[src$="cupula_obscruzdel_sur.webp"]{object-position:center 75%}
 .dp .tx{margin-top:12px}
 @media(max-width:767.98px){
 .dt{border:0;background:none}
-.dt thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.dt thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 .dt tbody{display:grid;gap:8px}
 .dt tr{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:12px 14px;background:#fff;border:1px solid var(--borde);border-radius:12px}
 .dt td{padding:0;border:0}
@@ -702,6 +699,11 @@ mark{background:#FDE68A;color:inherit;border-radius:3px;padding:0 1px}
 .fch-b .btn{min-height:44px;font-size:.875rem}
 .fch-b .fch-m{margin:16px 0 0;font-size:.875rem}
 @media(prefers-reduced-motion:no-preference){.fch[open]{animation:fch-in .2s ease}@keyframes fch-in{from{opacity:0;transform:translateY(12px)}}}
+/* Página 404 */
+.e404{margin-top:24px;text-align:center;padding:32px 20px}
+.ban .e404-n{margin:0;font-size:4rem;font-weight:700;line-height:1;opacity:.85}
+.ban.e404 h1{margin:8px 0}
+.ban.e404>p:last-child{max-width:52ch;margin-inline:auto}
 /* Microdatos sin contenido visible (publisher/author): no deben ocupar espacio en tarjetas flex */
 [itemprop=publisher],[itemprop=author]{display:none}
 /* Etiquetas de una noticia */
